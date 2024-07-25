@@ -32,8 +32,9 @@ class Pagamento(Enum):
 
 def tipo_usuario(n: int) -> Usuario:
     '''
-    Recebe um número correspondente a uma categoria de relação do usuário do programa com
+    Assimila um número correspondente a uma categoria de relação do usuário do programa com
     a universidade e a converte em um tipo de usuário manejável para o programador.
+    Feito através de listas dos tipos de Usuário.
     Exemplos:
     >>> tipo_usuario(0)
     <Usuario.ALUNO: 1>
@@ -43,8 +44,9 @@ def tipo_usuario(n: int) -> Usuario:
 
 def forma_pagamento(n: int) -> Pagamento:
     '''
-    Recebe um número correspondente a uma forma de pagamento e a converte em
-    um tipo de usuário manejável para o programador.
+    Assimila um número correspondente a uma categoria de forma de pagamento e a converte
+    em um tipo de usuário manejável para o programador.
+    Feito através de listas dos tipos de Pagamento.
     Exemplos:
     >>> forma_pagamento(0)
     <Pagamento.DINHEIRO: 1>
@@ -54,7 +56,8 @@ def forma_pagamento(n: int) -> Pagamento:
 
 def feedback_usuario(entrada: int, categoria: str) -> str:
     '''
-    Retorna um feedback de qual número o usuário selecionou e o que ele representa.
+    Retorna um feedback de qual número o usuário selecionou e o que ele representa. 
+    Feito através de operações lógicas.
     Exemplos:
     >>> feedback_usuario(1, 'Usuario')
     'Você selecionou 1 - ALUNO'
@@ -62,40 +65,41 @@ def feedback_usuario(entrada: int, categoria: str) -> str:
     'Você selecionou 1 - DINHEIRO'
     '''
     if categoria == 'Usuario':
-        operacao = tipo_usuario(entrada)
+        resposta = tipo_usuario(entrada - 1).name
     elif categoria == 'Pagamento':
-        operacao = forma_pagamento(entrada)
-    frase = 'Você selecionou ' + str(entrada) + ' - ' + (operacao).name
+        resposta = forma_pagamento(entrada - 1).name
+    frase = 'Você selecionou ' + str(entrada) + ' - ' + resposta
     return frase
 
-def registrar_venda():
+def registrar_venda() -> None:
     '''
     O registro de venda recebe o tipo de usuário, quantos tíquetes estão sendo comprados e
     a forma de pagamento. Após, apresenta o valor total da venda e, após a confirmação do operador,
     fica disponível para registrar outra venda.
     '''
-    entrada_tipo_usuario: int = input("Tipo de Usuário \n\
-                                  》 1 - Aluno\n\
-                                  》 2 - Docente\n\
-                                  》 3 - Pessoas da Comunidade Externa\n\
-                                  》 4 - Servidores Públicos com até 3 salários mínimos\n\
-                                  》 5 - Servidores Públicos com mais de 3 salários mínimos\n\
-                                  》 ")
+    print('Tipo de Usuário')
+    print('》 1 - Aluno')
+    print('》 2 - Docente')
+    print('》 3 - Pessoas da Comunidade Externa')
+    print('》 4 - Servidores Públicos com até 3 salários mínimos')
+    print('》 5 - Servidores Públicos com mais de 3 salários mínimos')
+    entrada_tipo_usuario_str: str = input('》 ')
+    entrada_tipo_usuario: int = int(entrada_tipo_usuario_str)
     categoria = 'Usuario'
     feedback_usuario(entrada_tipo_usuario, categoria)
-
-    q_de_tiquetes: int = input("Quantidade de tíquetes\n\
-                               》 ")
-
-    entrada_forma_pagamento: Pagamento = input("Forma de pagamento \n\
-                                       》 1 - Dinheiro\n\
-                                       》 2 - PIX\n\
-                                       》 3 - Cartão\n\
-                                       》 ")
+    print("Quantidade de tíquetes")
+    q_de_tiquetes_str: str = input("》 ")
+    q_de_tíquetes: int = int(q_de_tiquetes_str)
+    print('Forma de pagamento')
+    print('》 1 - Dinheiro')
+    print('》 2 - PIX')
+    print('》 3 - Cartão')
+    entrada_forma_pagamento_str: str = input('》 ')
+    entrada_forma_pagamento: int = int(entrada_forma_pagamento_str)
     categoria = 'Pagamento'
     feedback_usuario(entrada_forma_pagamento, categoria)
 
-    return 0.0
+    
 def relatorio_vendas():
     '''
     
@@ -104,21 +108,20 @@ def relatorio_vendas():
 
     return 0
 
-def main():
+def main() -> None:
     '''
     Fornece uma interface amigável ao usuário e organiza as entradas do usuário,
     relacionando-as com as funções adequadas e integrando o programa como um todo.
     '''
-    inicializacao = input("▷ Sistema ◁ Digite o número desejado, sem aspas:\n\
-                          》 1 - Registrar uma venda\n\
-                          》 2 - Exibir o Relatório das vendas\n\
-                          》 ")
+    print('▷ Sistema ◁ Digite o número desejado, sem aspas')
+    print('》 1 - Registrar uma venda')
+    print('》 2 - Exibir o Relatório das vendas')
+    inicializacao_str: str = input('》 ')
+    inicializacao: int = int(inicializacao_str)
     
     if inicializacao == 1:
         registrar_venda()
     elif inicializacao == 2:
         relatorio_vendas()
 
-
-    return 0
 main()
