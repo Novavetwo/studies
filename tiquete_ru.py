@@ -63,9 +63,22 @@ def feedback_usuario(entrada: int, categoria: str) -> str:
     'Você selecionou 1 - ALUNO'
     >>> feedback_usuario(1, 'Pagamento')
     'Você selecionou 1 - DINHEIRO'
+    >>> feedback_usuario(2, 'Tíquetes')
+    'Você selecionou 2 - Tíquetes'
+    >>> feedback_usuario(1, 'Tíquetes')
+    'Você selecionou 1 - Tíquete'
+    >>> feedback_usuario(0, 'Tíquetes')
+    'Você selecinou 0 - Quantidade inválida para Tíquetes'
     '''
     if categoria == 'Usuario':
         resposta = tipo_usuario(entrada - 1).name
+    elif categoria == 'Tíquetes':
+        if entrada > 1:
+            resposta = 'Tíquetes'
+        elif entrada == 1:
+            resposta = 'Tíquete'
+        else:
+            resposta = 'Quantidade inválida para Tíquetes'
     elif categoria == 'Pagamento':
         resposta = forma_pagamento(entrada - 1).name
     frase = 'Você selecionou ' + str(entrada) + ' - ' + resposta
@@ -86,9 +99,11 @@ def registrar_venda() -> None:
     entrada_tipo_usuario_str: str = input('》 ')
     entrada_tipo_usuario: int = int(entrada_tipo_usuario_str)
     categoria = 'Usuario'
-    feedback_usuario(entrada_tipo_usuario, categoria)
+    print(feedback_usuario(entrada_tipo_usuario, categoria))
+
     print("Quantidade de tíquetes")
     q_de_tiquetes_str: str = input("》 ")
+    categoria = 'Tíquetes'
     q_de_tíquetes: int = int(q_de_tiquetes_str)
     print('Forma de pagamento')
     print('》 1 - Dinheiro')
