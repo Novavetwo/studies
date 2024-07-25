@@ -65,7 +65,8 @@ def feedback_usuario(entrada: int, categoria: str) -> str:
         operacao = tipo_usuario(entrada)
     elif categoria == 'Pagamento':
         operacao = forma_pagamento(entrada)
-    return 'Você selecionou', entrada, ' - ', (operacao).name
+    frase = 'Você selecionou ' + str(entrada) + ' - ' + (operacao).name
+    return frase
 
 def registrar_venda():
     '''
@@ -109,8 +110,8 @@ def main():
     relacionando-as com as funções adequadas e integrando o programa como um todo.
     '''
     inicializacao = input("▷ Sistema ◁ Digite o número desejado, sem aspas:\n\
-                          》1 - Registrar uma venda\n\
-                          》2 - Exibir o Relatório das vendas\n\
+                          》 1 - Registrar uma venda\n\
+                          》 2 - Exibir o Relatório das vendas\n\
                           》 ")
     
     if inicializacao == 1:
