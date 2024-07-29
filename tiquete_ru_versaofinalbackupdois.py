@@ -192,7 +192,11 @@ def grafico(vendas: list[Registro], vendas_por_pagamento: SomaPagamento, receita
         ███              ███
     | Cartão |  PIX   |Dinheiro|
     '''
-    '''
+    bloco_cheio = '     ███    ' # = 25%▄
+    bloco_meiocheio = '     ▄▄▄    ' # = 12,5%
+    bloco_meio_meiocheio = '     ▂▂▂    ' # = 6,25%
+
+    bloco_vazio = '            '
     bloco_numerico_dois_digitos = '     ', numero, '%    '
     bloco_numerico_um_digito = '      ', numero, '%    '
     bloco_numerico_tres_digitos = '     ', numero, '%   '
@@ -206,29 +210,9 @@ def grafico(vendas: list[Registro], vendas_por_pagamento: SomaPagamento, receita
     lst_porcentagens_usuarios = lista_de_porcentagens_por_categoria(monta_somas_usuario(vendas),\
                                                                      tiquetes_totais(vendas))
     
-    lst_blocos_numericos = cria_bloco_numerico(lst_porcentagens_usuarios)
-        
-
-    '''
     
-    '''
-
-    aluno = lst_porcentagens[0]
-    s_menos_que_tres = lst_porcentagens[1]
-    s_mais_que_tres = lst_porcentagens[2]
-    docente = lst_porcentagens[3]
-    externo = lst_porcentagens[4]
-    
-    return ''
-    '''
-def cria_bloco_numerico(lst_porcentagens_usuarios: list[int]) -> list[str]:
-    '''
-    Cria uma lista de blocos numéricos a partir de uma lista de porcentagens, representando-as para serem
-    utilizadas pelo gráfico vertical.
-    >>> cria_bloco_numerico([10, 20, 70])
-    ['     10%    ', '     20%    ', '     70%    ']
-    '''
     lst_blocos_numericos = []
+
     for numero in lst_porcentagens_usuarios:
         um_digito = False
         dois_digitos = False
@@ -247,40 +231,9 @@ def cria_bloco_numerico(lst_porcentagens_usuarios: list[int]) -> list[str]:
             bloco_numerico = '     ', numero, '%    '
         elif tres_digitos:
             bloco_numerico = '     ', numero, '%   '
-        lst_blocos_numericos.append(bloco_numerico)
-    return lst_blocos_numericos
 
-def cria_coluna_grafico(porcentagens: list[int]) -> str:
-    '''
-    Desenvolve uma coluna de gráficos baseado em uma lista de inteiros, que representam porcentagens.
-    Exemplo:
-    >>> coluna_grafico([10, 90])
-                     ▄▄▄    
-                     ███    
-                     ███    
-         ▄▄▄         ███    
-    '''
-    bloco_cheio = '     ███    ' # = 25%▆
-    bloco_quasecheio = '     ▆▆▆    ' # = 18,75%
-    bloco_meiocheio = '     ▄▄▄    ' # = 12,5%
-    bloco_meio_meiocheio = '     ▂▂▂    ' # = 6,25%
-    bloco_vazio = '            '
-    for porcentagem in porcentagens:
-        if porcentagem > 29 and porcentagem < 34:
-            bloco_topo = cria_bloco_numerico([porcentagem])
-           
-            bloco = '     ███    '
-    for porcentagem in porcentagens:
-        if porcentagem < 30 and porcentagem > 21:
-            bloco = '     ███    '
-        elif porcentagem < 22 and porcentagem > 15:
-            bloco = '     ▆▆▆    '
-        elif porcentagem < 16 and porcentagem > 9:
-            bloco = '     ▄▄▄    '
-        elif porcentagem < 10 and porcentagem > 0:
-            bloco = '     ▂▂▂    '
-        elif porcentagem == 0:
-            bloco = '            '
+        lst_blocos_numericos.append(bloco_numerico)
+        
 
     '''
     lst = ['oi', 'hello', 'nooo']
@@ -291,46 +244,26 @@ def cria_coluna_grafico(porcentagens: list[int]) -> str:
         sting = ''
         for nn in n:
             sting = sting + nn
-        print(sting)    
+        print(sting)
     '''
-    return ''
-def verifica_topo_coluna(porcentagem: int) -> str:
-    '''
-    Seleciona um topo para a coluna do gráfico.
-    Exemplo:
-    >>> topo_coluna(30)
-         ▂▂▂    
-    >>> topo_coluna(25)
-                
-    >>> topo_coluna(90)
-         ▄▄▄    
-    '''
-    calculo = porcentagem // 25
-    if calculo == 0:
-        parametro = porcentagem
-    if calculo == 1:
-        parametro = porcentagem - 25
-    elif calculo == 2:
-        parametro = porcentagem - 50
-    elif calculo == 3:
-        parametro = porcentagem - 75
-    elif calculo == 4:
-        parametro = 100
+
+    aluno = lst_porcentagens[0]
+    s_menos_que_tres = lst_porcentagens[1]
+    s_mais_que_tres = lst_porcentagens[2]
+    docente = lst_porcentagens[3]
+    externo = lst_porcentagens[4]
     
-    if parametro < 30 and parametro > 21:
-        topo = '     ███    '
-    elif parametro < 22 and parametro > 15:
-        topo = '     ▆▆▆    '
-    elif parametro < 16 and parametro > 9:
-        topo = '     ▄▄▄    '
-    elif parametro < 10 and parametro > 0:
-        topo = '     ▂▂▂    '
-    elif parametro == 0:
-        topo = '            '
-    elif parametro == 100:
-        topo = '     ███    '
- 
-    return topo
+    return ''
+def coluna_grafico(porcentagem: list[int]) -> str:
+    '''
+    Desenvolve uma coluna de gráficos baseado em uma lista de inteiros, que representam porcentagens.
+    Exemplo:
+    >>> coluna_grafico([10, 90])
+                     ▄▄▄    
+                     ███    
+                     ███    
+         ▄▄▄         ███    
+    '''
 
 def quantos_digitos(n: int) -> int:
     '''
