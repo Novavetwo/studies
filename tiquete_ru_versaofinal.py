@@ -204,9 +204,9 @@ def grafico(vendas: list[Registro], vendas_por_pagamento: Soma_Pagamento, receit
     porcentagem_relativa_cartao = (100 * vendas_por_pagamento.Cartao) // receita
     lst_porcentagens_usuarios = lista_de_porcentagens_por_categoria(monta_somas_usuario(vendas),\
                                                                      tiquetes_totais(vendas))
-    
+    if len(lst_porcentagens_usuarios) !=
 
-    for p in lst_porcentagens:
+    for p in lst_porcentagens_usuarios:
         if quantos_digitos(p) == 1:
             um_digito = True
         elif quantos_digitos(p) == 2:
@@ -244,7 +244,11 @@ def quantos_digitos(n: int) -> int:
     >>> quantos_digitos()
     0
     '''
-    return len(str(n))
+    if n == None:
+        len_int = 0
+    else:
+        len_int = len(str(n))
+    return len_int
 
 def lista_de_porcentagens_por_categoria(soma_usuario: Soma_Usuario, tiquetes_totais: int) -> list[int]:
     '''
