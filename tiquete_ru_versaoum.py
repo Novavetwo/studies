@@ -196,22 +196,26 @@ def relatorio_vendas(vendas: list[Registro]) -> None:
     print('Tíquetes vendidos: ', tiquetes)
     receita = receita_total(vendas)
     print('Receita do dia: ', receita)
-    print(grafico(vendas, tiquetes, receita))
+    pagamento = vendas_por_pagamento(vendas, receita)
+    print(grafico(vendas, pagamento, receita))
     menu_inicial = input('Pressione Enter para ir ao Menu Principal ou Espaço + Enter para ver os créditos')
     if menu_inicial == ' ':
         creditos()
 
-def vendas_por_pagamento(vendas: list[Registro]) -> list[Soma_Pagamento]:
+def vendas_por_pagamento(vendas: list[Registro], receita: int) -> list[Soma_Pagamento]:
     '''
     Soma a quantidade de vendas por categoria de pagamento, de acordo com a
     quantidade de tíquetes vendidos em cada venda.
     Exemplo:
     >>> vendas_por_pagamento(Registro(Tipo_de_Usuario='ALUNO', Quantidade_de_Tiquetes=1,
-    Forma_de_Pagamento='DINHEIRO')]))
-    [1, 0, 0]
+    Forma_de_Pagamento='DINHEIRO'))
+    Soma_Pagamento(Dinheiro=1, Pix=0, Cartao=0)
     '''
-    
-
+    pagamento = Soma_Pagamento(0, 0, 0)
+    total = 0
+    for registro in vendas:
+        total_da_venda(registro)
+        
 def creditos() -> None:
     '''
     Exibe os créditos do programa.
@@ -233,11 +237,11 @@ def creditos() -> None:
     print('Créditos feitos por Paulo Guilherme Schnaufer')
     print('Toda a glória seja a Deus')
 
-def tiquetes_totais(vendas: list[Registro], categoria: str) -> int:
+def tiquetes_totais(vendas: list[Registro]) -> int:
     '''
     Soma todos os tíquetes de todas as vendas registradas.
     Exemplos:
-    >>> tiquetes_totais([Registro(Tipo_de_Usuario='ALUNO', Quantidade_de_Tiquetes=1, Forma_de_Pagamento='DINHEIRO')])
+    >>> tiquetes_totais(Registro(Tipo_de_Usuario='ALUNO', Quantidade_de_Tiquetes=1, Forma_de_Pagamento='DINHEIRO'))
     1
     '''
     lst_tiquetes = []
@@ -251,7 +255,7 @@ def receita_total(vendas: list[Registro]) -> int:
     '''
     Soma todo o dinheiro de todas as vendas registradas.
     Exemplos:
-    >>> receita_total([Registro(Tipo_de_Usuario='ALUNO', Quantidade_de_Tiquetes=1, Forma_de_Pagamento='DINHEIRO')])
+    >>> receita_total(Registro(Tipo_de_Usuario='ALUNO', Quantidade_de_Tiquetes=1, Forma_de_Pagamento='DINHEIRO'))
     5
     '''
     lst_dinheiro = []

@@ -198,14 +198,17 @@ def grafico(vendas: list[Registro], vendas_por_pagamento: Soma_Pagamento, receit
     bloco_numerico_tres_digitos = '     ', tres_digitos, '%   '
     base_usuario = '|   Aluno   |Servidor<=3| Servidor>3|  Docente  |  Externo  |'
     base_pagamento = '|  Cartão  | PIX  |  Dinheiro  |'
-    
+    for registro in vendas:
+        registro.Tipo_de_Usuario
+    soma_usuario = monta_somas_usuario(vendas)
+
+    aluno_tiquetes = soma_usuario.Aluno
+        
     porcentagem_relativa_dinheiro = (100 * vendas_por_pagamento.Dinheiro) // receita
     porcentagem_relativa_pix = (100 * vendas_por_pagamento.Pix) // receita
     porcentagem_relativa_cartao = (100 * vendas_por_pagamento.Cartao) // receita
-    lst_porcentagens_usuarios = lista_de_porcentagens_por_categoria(monta_somas_usuario(vendas),\
-                                                                     tiquetes_totais(vendas))
+    lst_porcentagens = lista_de_porcentagens_por_categoria(monta_somas_usuario(vendas), tiquetes_totais(vendas))
     
-
     for p in lst_porcentagens:
         if quantos_digitos(p) == 1:
             um_digito = True
