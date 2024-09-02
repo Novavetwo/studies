@@ -49,12 +49,13 @@ def le_arquivo(nome: str) -> list[list[str]]:
 # 1º - Verificar se um determinado país está presente na lista, para auxiliar o *0º* - FEITO
 # 2º - Fazer a troca de dois países da lista com passagem de parâmetro. - FEITO
 # 3º - Fazer uma chamada recursiva ou com loop de passagem de parâmetro
-#      para ordenar a lista de países pela sua quantidade de medalhas. - 
+#      para ordenar a lista de países pela sua quantidade de medalhas. - FEITO
 # 4º - Fazer a soma das medalhas de um dado país e de uma dada categoria - FEITO
 # 5º - Fazer a comparação entre dois países para executar o *3º* - FEITO
 # 6º - Fazer uma identificação do índice que representa o país, na lista de países,
-#      que possui a maior quantidade de medalhas, para auxiliar o *3º* - 
+#      que possui a maior quantidade de medalhas, para auxiliar o *3º* - FEITO
 # 7º - Fazer a ordenação de medalhas em uma lista, para auxiliar a função principal que produz o quadro e o *5º* - FEITO
+# 8º - Fazer a formatação das linhas
 def quadro_medalhas(tabela: list[list[str]]) -> None:
     '''
     Gerencia, integra e chama as funções para criar, calcular e exibir um 
@@ -63,18 +64,42 @@ def quadro_medalhas(tabela: list[list[str]]) -> None:
     paises = categoria_paises(tabela, len(tabela) - 1, [])
     paises_ordenados = ordenar_paises_por_medalhas(tabela, paises, 0)
 
-    print('País  Ouro  Prata  Bronze  Total')
+    print('País    Ouro    Prata   Bronze  Total   ')
+    #             '45      2       98      145     ' 
     for pais in paises_ordenados:
-        medalhas = ordena_medalhas(tabela, pais)
-        print(pais + str(medalhas[0]) + str(medalhas[1]) + str(medalhas[2]) + str(medalhas[3]))
+        medalhas = lst_int_para_lst_str(ordena_medalhas(tabela, pais), [], 3)
+        print(pais + '     ' + formata_linha(medalhas, '', 3))
 
-def formata_linha(pais: str, medalhas: list[int]) -> str:
+def formata_linha(medalhas: list[str], linha: str, i: int) -> str:
     '''
     Calcula o espaçamento do quadro de medalhas para que as colunas estejam alinhadas e padronizadas.
-    O espaçamento total disponível é de 32 unidades '                                '
+    O espaçamento total disponível é de 26 unidades '                                ', sendo 6 para todas
+    as categorias, além de 2 unidades entre cada uma delas.
+    Requer que *linha* seja uma string vazia ''
+    Requer que *i* seja 3 na primeira chamada.
     Exemplo:
-    >>> formata_linha('BRA', [45])
+    >>> formata_linha(['45', '2', '98', '145'], '', 3)
+    '45      2       98      145     '
     '''
+    if i >= 0:
+        medalha = medalhas[3 - i]
+        linha = medalha + (' ' * (8 - len(medalha))) + formata_linha(medalhas, linha, i - 1)
+    return linha
+
+def lst_int_para_lst_str(lst_int: list[int], lst_str: list[str], i: int) -> list[str]:
+    '''
+    Transforma uma lista de inteiros em uma lista de strings, através de recursividade.
+    Requer que lst_str seja uma lista vazia [] na primeira chamada.
+    Requer que *i* seja len(lst_int) - 1
+    Exemplo:
+    >>> lst_int_para_lst_str([45, 2, 98, 145], [], 3)
+    ['45', '2', '98', '145']
+    '''
+    if i >= 0:
+        n = lst_int[i]
+        lst_str = lst_int_para_lst_str(lst_int, lst_str, i - 1)
+        lst_str.append(str(n))
+    return lst_str
 
 def paises_um_genero(tabela: list[list[str]]) -> None:
     '''
@@ -161,21 +186,34 @@ def compara_medalhas(tabela: list[list[str]], pais1: str, pais2: str) -> bool:
     return resposta
 
 def encontra_maximo(tabela: list[list[str]], paises: list[str], i: int, i_maximo: int) -> int:
-    '''
-    Encontra o índice do maior valor de uma lista. O maior valor de uma lista é definido pela sua
-    quantidade de medalhas de ouro, prata e bronze. Exige que i seja igual a zero na primeira chamada.
-    O caso base é retornar o valor máximo *i_maximo* já estabelecido, quando *i* ultrapassar a 
-    quantidade de elementos da lista len(paises).
-    Exemplo:
-    >>> encontra_maximo([['','','1','','BRA'],['','','3','','USA']], [], 0, 0)
-    0
-    '''
-    if i < len(paises):
-        if compara_medalhas(tabela, paises[i], paises[i_maximo]):
-            i_maximo = i
-        i_maximo = encontra_maximo(tabela, paises, i + 1, i_maximo)
-    return i_maximo
-    
+   '''
+   Encontra o índice do maior valor de uma lista. O maior valor de uma lista é definido pela sua
+   quantidade de medalhas de ouro, prata e bronze.
+   Exemplo:
+   >>> encontra_maximo([['','1','','','BRA'],['','2','','','USA']], ['BRA','USA'], 0, 0)
+   0
+   '''
+   for j in range(i, len(paises)):
+       if compara_medalhas(tabela, paises[j], paises[i_maximo]):
+           i_maximo = j
+   return i_maximo
+
+#def encontra_maximo(tabela: list[list[str]], paises: list[str], i: int, i_maximo: int) -> int:
+#    '''
+#    Encontra o índice do maior valor de uma lista. O maior valor de uma lista é definido pela sua
+#    quantidade de medalhas de ouro, prata e bronze. Exige que i seja igual a zero na primeira chamada.
+#    O caso base é retornar o valor máximo *i_maximo* já estabelecido, quando *i* ultrapassar a 
+#    quantidade de elementos da lista len(paises).
+#    Exemplo:
+#    >>> encontra_maximo([['','1','','','BRA'],['','3','','','USA']], [], 0, 0)
+#    0
+#    
+#    if i < len(paises):
+#        if compara_medalhas(tabela, paises[i], paises[i_maximo]):
+#            i_maximo = i
+#        i_maximo = encontra_maximo(tabela, paises, i + 1, i_maximo)
+#    return i_maximo
+
 def troca_lugar(lst: list[str], i: int, j: int) -> list[str]:
     '''
     Troca dois elementos nos índices i e j em uma lista entre si.
@@ -214,13 +252,17 @@ def categoria_paises(tabela: list[list[str]], linha: int, paises: list[str]) -> 
     Requer que linha seja len(tabela) - 1 e que paises seja uma lista vazia [] na primeira chamada. 
     Exemplo:
     >>> categoria_paises([['','1','','', 'BRA'], ['','2','','', 'USA']], 1, [])
-    ['BRA', 'USA']
+    ['USA', 'BRA']
+    >>> categoria_paises([['','1','','','BRA'],['','2','','','BRA']], 1, [])
+    ['BRA']
     '''
     if linha >= 0:
         pais = tabela[linha][4]
         if verificar_presenca(paises, pais) == False:
-            paises = categoria_paises(tabela, linha - 1, paises)
             paises.append(pais)
+            paises = categoria_paises(tabela, linha - 1, paises)
+        else:
+            paises = categoria_paises(tabela, linha - 1, paises)
     return paises
     
 def verificar_presenca(lst: list[str], elemento: str):
@@ -239,8 +281,8 @@ def verificar_presenca(lst: list[str], elemento: str):
             resposta = True
         i = i + 1
     return resposta
-
-print(paises_um_genero([['','','','','BRA','M'],['','','','','USA','W']]))
-#if __name__ == '__main__':
-#    main()
+#print(categoria_paises([['','1','', '', 'BRA'], ['','2','', '', 'USA'], ['','1','', '', 'BRA'], ['','1','', '', 'BRA']], 3, []))
+#quadro_medalhas([['','3','', '', 'BRA'], ['','1','', '', 'USA'], ['','2','', '', 'BRA'], ['','2','', '', 'BRA']])
+if __name__ == '__main__':
+    main()
 
